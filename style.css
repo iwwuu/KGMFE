@@ -185,7 +185,7 @@ mock-file {
         display: inline-block;
     }
 
-    main {
+    mock-file-system>div {
         padding: 40px 30px;
     }
 
