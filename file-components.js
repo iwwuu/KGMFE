@@ -11,7 +11,11 @@ class ComponentFileSystem extends HTMLElement {
         directory.id = "directory";
         
         const title = document.createElement("h2");
-        title.insertAdjacentHTML("afterbegin", "<a href='../'>&lt;-</a> " + this.getAttribute("data-title"));
+        let backLink = "../";
+        if (this.hasAttribute("data-back-link")) {
+            backLink = this.getAttribute("data-back-link")
+        }
+        title.insertAdjacentHTML("afterbegin", "<a href='" + backLink + "'>&lt;-</a> " + this.getAttribute("data-title"));
         directory.appendChild(title);
         
         directory.insertAdjacentHTML("beforeend", `
@@ -88,12 +92,11 @@ class ComponentFile extends HTMLElement {
         name.textContent = this.getAttribute("data-name");
 
         const lastModified = document.createElement("h3");
-        if (!this.hasAttribute("data-last-modified")) {
-            lastModified.textContent = "01 JAN 1970 00:00"
+        let lastModifiedContent = "01 JAN 1970 00:00";
+        if (this.hasAttribute("data-last-modified")) {
+            lastModifiedContent = this.getAttribute("data-last-modified");
         }
-        else {
-            lastModified.textContent = this.getAttribute("data-last-modified");
-        }
+        lastModified.textContent = lastModifiedContent;
 
         if (this.getAttribute("data-type") === "link"){
             this.addEventListener('click', function () {
