@@ -149,6 +149,8 @@ mock-file:hover {
 }
 
 .files-image-container img {
+    object-fit:contain;
+    background-color: #3d3d3d;
     max-width: 600px;
     /* hard coded width to fix edge broken img bug */
     width: 76.77vw;
