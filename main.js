@@ -107,10 +107,56 @@ isDocumentReady(() => {
     const marqueeWrapper = document.getElementById("marquee-wrapper");
     
     const image = document.querySelector("img");
+    const directory = document.getElementById("directory");
 
     const fileView = document.getElementById("file-view");
     const imageView = document.getElementById("image-view");
     const musicView = document.getElementById("music-view");
+
+    let isNameDescending = true;
+    let isDateDescending = true;
+
+    function sortByName() {
+        const sortedFiles = Array.from(directory.children)
+            .filter(child => child.nodeName === "MOCK-FILE")
+            .sort((a, b) => {
+                const nameA = a.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
+                const nameB = b.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
+                if (isNameDescending) {
+                    return nameB.localeCompare(nameA)
+                }
+                return nameA.localeCompare(nameB);
+        });
+
+        sortedFiles.forEach(file => {
+            directory.appendChild(file);
+        });
+
+        fillFileArrays();
+        isNameDescending = !isNameDescending;
+        isDateDescending = false;
+    }
+
+    function sortByDate() {
+        const sortedFiles = Array.from(directory.children)
+            .filter(child => child.nodeName === "MOCK-FILE")
+            .sort((a, b) => {
+                const dateA = new Date(a.getAttribute('data-last-modified'));
+                const dateB = new Date(b.getAttribute('data-last-modified'));
+                if (isDateDescending) {
+                    return dateB - dateA
+                }
+                return dateA - dateB;
+        });
+
+        sortedFiles.forEach(file => {
+            directory.appendChild(file);
+        });
+
+        fillFileArrays();
+        isDateDescending = !isDateDescending;
+        isNameDescending = false;
+    }
 
      const findIndex = (name, array) => {
         for (let index = 0; index < array.length; index++) {
@@ -155,44 +201,58 @@ isDocumentReady(() => {
         }
     }
 
-    document.querySelectorAll("mock-file").forEach((item) => {
-        let name = item.getAttribute("data-name")?.replace(/\p{Emoji_Presentation}/gu, '');
-        let content = item.getAttribute('data-content');
-        if (item.getAttribute("data-type") === "audioStream") {
-            music.push(name);
-            music_ids[name] = content;
+    function fillFileArrays(isAddEventListener = false) {
+        images = [];
+        music = [];
+        music_ids = [];
+        image_src = [];
+        document.querySelectorAll("mock-file").forEach((item) => {
+            let name = item.getAttribute("data-name")?.replace(/\p{Emoji_Presentation}/gu, '');
+            let content = item.getAttribute('data-content');
+            if (item.getAttribute("data-type") === "audioStream") {
+                music.push(name);
+                music_ids[name] = content;
 
-            item.addEventListener('click', () => {
-                history.pushState({file: name, type: "music"}, name, "#"+name);
-                replaceMusic(name, false);
-                fileView.style.opacity = 0;
-                fileView.style.animation = "fadein 400ms";
-                setTimeout(function () {
-                    musicView.style.display = "flex";
-                    musicView.style.opacity = 1;
-                    fileView.style.display = "none";
-                }, 400)
-            });
-        }
-        else if (item.getAttribute("data-type") === "image") {
-            images.push(name);
-            image_src[name] = content;
-            let img = new Image();
-            img.src = content;
+                if (isAddEventListener){
+                    item.addEventListener('click', () => {
+                        history.pushState({file: name, type: "music"}, name, "#"+name);
+                        replaceMusic(name, false);
+                        fileView.style.opacity = 0;
+                        fileView.style.animation = "fadein 400ms";
+                        setTimeout(function () {
+                            musicView.style.display = "flex";
+                            musicView.style.opacity = 1;
+                            fileView.style.display = "none";
+                        }, 400)
+                    });
+                }
+            }
+            else if (item.getAttribute("data-type") === "image") {
+                images.push(name);
+                image_src[name] = content;
+                let img = new Image();
+                img.src = content;
 
-            item.addEventListener('click', () => {
-                history.pushState({"file": name, "type": "image"}, name, "#"+name);
-                replaceImage(name, false);
-                fileView.style.opacity = 0;
-                fileView.style.animation = "fadein 400ms";
-                setTimeout(function () {
-                    imageView.style.display = "flex";
-                    imageView.style.opacity = 1;
-                    fileView.style.display = "none";
-                }, 400)
-            });
-        }
-    });
+                if (isAddEventListener){
+                    item.addEventListener('click', () => {
+                        history.pushState({"file": name, "type": "image"}, name, "#"+name);
+                        replaceImage(name, false);
+                        fileView.style.opacity = 0;
+                        fileView.style.animation = "fadein 400ms";
+                        setTimeout(function () {
+                            imageView.style.display = "flex";
+                            imageView.style.opacity = 1;
+                            fileView.style.display = "none";
+                        }, 400)
+                    });
+                }
+            }
+        });
+    }
+
+    directory.querySelector(".file-line h3:nth-child(1) b").addEventListener("click", sortByName);
+    directory.querySelector(".file-line h3:nth-child(2) b").addEventListener("click", sortByDate);
+    fillFileArrays(true);
 
     if (images.length < 2) {
         document.querySelectorAll(".left-delta, .right-delta").forEach((item) => {

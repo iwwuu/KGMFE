@@ -51,8 +51,10 @@ a {
 }
 
 h3 a:hover,
-h2 a:hover {
+h2 a:hover,
+h3 b:hover {
     text-decoration: line-through #ffffff3d 1.5em;
+    cursor: pointer;
 }
 
 mock-file-system>div {

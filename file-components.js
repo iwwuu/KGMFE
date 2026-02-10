@@ -1,6 +1,7 @@
 class ComponentFileSystem extends HTMLElement {
     static instanceFS = null;
-    connectedCallback() {
+    constructor() {
+        super();
         if (ComponentFileSystem.instanceFS){
             console.error("ERROR: only one file system per document is allowed.")
             return;
@@ -24,8 +25,18 @@ class ComponentFileSystem extends HTMLElement {
                 <h3><b>Last Modified</b></h3>
             </div>
         `)
-        directory.insertAdjacentHTML("beforeend", this.innerHTML);
-        this.innerHTML = '';
+
+        const sortedFiles = Array.from(this.children)
+            .filter(child => child.nodeName === "MOCK-FILE")
+            .sort((a, b) => {
+                const nameA = a.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
+                const nameB = b.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
+                return nameA.localeCompare(nameB);
+        });
+
+        sortedFiles.forEach(file => {
+            directory.appendChild(file);
+        });
         
         fileView.appendChild(directory)
         this.appendChild(fileView)
@@ -78,7 +89,8 @@ class ComponentFileSystem extends HTMLElement {
 }
 
 class ComponentFile extends HTMLElement {
-    connectedCallback() {
+    constructor() {
+        super();
         if (!this.hasAttribute("data-name")){
             console.error("ERROR: data-name cannot be blank!", this.outerHTML)
             return;
