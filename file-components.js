@@ -12,11 +12,7 @@ class ComponentFileSystem extends HTMLElement {
         directory.id = "directory";
         
         const title = document.createElement("h2");
-        let backLink = "../";
-        if (this.hasAttribute("data-back-link")) {
-            backLink = this.getAttribute("data-back-link")
-        }
-        title.insertAdjacentHTML("afterbegin", "<a href='" + backLink + "'>&lt;-</a> " + this.getAttribute("data-title"));
+        title.insertAdjacentHTML("afterbegin", "<a onClick='history.back()'>&lt;-</a> " + this.getAttribute("data-title"));
         directory.appendChild(title);
         
         directory.insertAdjacentHTML("beforeend", `
