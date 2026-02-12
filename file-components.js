@@ -14,13 +14,6 @@ class ComponentFileSystem extends HTMLElement {
         const title = document.createElement("h2");
         title.insertAdjacentHTML("afterbegin", "<a onClick='history.back()'>&lt;-</a> " + this.getAttribute("data-title"));
         directory.appendChild(title);
-        
-        directory.insertAdjacentHTML("beforeend", `
-            <div class="file-line">
-                <h3><b>File Name</b></h3>
-                <h3><b>Last Modified</b></h3>
-            </div>
-        `)
 
         const sortedFiles = Array.from(this.children)
             .filter(child => child.nodeName === "MOCK-FILE")
@@ -30,9 +23,24 @@ class ComponentFileSystem extends HTMLElement {
                 return nameA.localeCompare(nameB);
         });
 
-        sortedFiles.forEach(file => {
-            directory.appendChild(file);
-        });
+        if (sortedFiles.length === 0) {
+            const text = document.createElement("h3");
+            text.style.textAlign = "left"
+            text.textContent = "Folder is Empty."
+            directory.appendChild(text);
+        }
+        else {
+            directory.insertAdjacentHTML("beforeend", `
+                    <div class="file-line">
+                    <h3><b>File Name</b></h3>
+                    <h3><b>Last Modified</b></h3>
+                    </div>
+                `)
+                
+            sortedFiles.forEach(file => {
+                directory.appendChild(file);
+            });    
+        }
         
         fileView.appendChild(directory)
         this.appendChild(fileView)

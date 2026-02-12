@@ -250,8 +250,8 @@ isDocumentReady(() => {
         });
     }
 
-    directory.querySelector(".file-line h3:nth-child(1) b").addEventListener("click", sortByName);
-    directory.querySelector(".file-line h3:nth-child(2) b").addEventListener("click", sortByDate);
+    directory.querySelector(".file-line h3:nth-child(1) b")?.addEventListener("click", sortByName);
+    directory.querySelector(".file-line h3:nth-child(2) b")?.addEventListener("click", sortByDate);
     fillFileArrays(true);
 
     if (images.length < 2) {
