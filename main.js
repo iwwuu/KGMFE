@@ -92,6 +92,14 @@ function isDocumentReady(fn) {
 }
 
 isDocumentReady(() => {
+
+    document.body.style.backgroundColor = "black"; //hack to avoid white flash while loading stylesheet
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = new URL('./style.css', import.meta.url).href;
+    document.head.appendChild(link);
+
     let images = []
     let music = []
     let music_ids = []
@@ -120,8 +128,8 @@ isDocumentReady(() => {
         const sortedFiles = Array.from(directory.children)
             .filter(child => child.nodeName === "MOCK-FILE")
             .sort((a, b) => {
-                const nameA = a.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
-                const nameB = b.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
+                const nameA = a.getAttribute('data-name').toLowerCase();
+                const nameB = b.getAttribute('data-name').toLowerCase();
                 if (isNameDescending) {
                     return nameB.localeCompare(nameA)
                 }
@@ -207,7 +215,7 @@ isDocumentReady(() => {
         music_ids = [];
         image_src = [];
         document.querySelectorAll("mock-file").forEach((item) => {
-            let name = item.getAttribute("data-name")?.replace(/\p{Emoji_Presentation}/gu, '');
+            let name = item.getAttribute("data-name");
             let content = item.getAttribute('data-content');
             if (item.getAttribute("data-type") === "audioStream") {
                 music.push(name);
@@ -262,7 +270,7 @@ isDocumentReady(() => {
         document.querySelectorAll(".left-delta, .right-delta").forEach((item) => {
             if (item.classList.contains("left-delta")) {
                 item.addEventListener('click', () => {
-                    let name = imageTitle.textContent?.replace(/\p{Emoji_Presentation}/gu, '');
+                    let name = imageTitle.textContent;
                     index = findIndex(name, images);
                     
                     if (index == 0)
@@ -274,7 +282,7 @@ isDocumentReady(() => {
             }
             else {
                 item.addEventListener('click', () => {
-                    let name = imageTitle.textContent?.replace(/\p{Emoji_Presentation}/gu, '');
+                    let name = imageTitle.textContent;
                     index = findIndex(name, images);
 
                     if (index == images.length - 1)

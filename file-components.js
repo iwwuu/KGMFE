@@ -22,8 +22,8 @@ class ComponentFileSystem extends HTMLElement {
         const sortedFiles = Array.from(this.children)
             .filter(child => child.nodeName === "MOCK-FILE")
             .sort((a, b) => {
-                const nameA = a.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
-                const nameB = b.getAttribute('data-name').replace(/\p{Emoji_Presentation}/gu, '').toLowerCase();
+                const nameA = a.getAttribute('data-name').toLowerCase();
+                const nameB = b.getAttribute('data-name').toLowerCase();
                 return nameA.localeCompare(nameB);
         });
 

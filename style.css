@@ -256,3 +256,7 @@ mock-file {
 .scrolling-left {
     animation: scroll-left 15s linear infinite;
 }
+
+.egg>h3:first-child::before {
+    content: '🥚';
+}
