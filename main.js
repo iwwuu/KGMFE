@@ -1,4 +1,13 @@
 import "./file-components.js"
+
+document.body.style.backgroundColor = "black"; //hack to avoid white flash while loading stylesheet
+
+const link = document.createElement('link');
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = new URL('./style.css', import.meta.url).href;
+document.head.appendChild(link);
+
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -92,14 +101,6 @@ function isDocumentReady(fn) {
 }
 
 isDocumentReady(() => {
-
-    document.body.style.backgroundColor = "black"; //hack to avoid white flash while loading stylesheet
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = new URL('./style.css', import.meta.url).href;
-    document.head.appendChild(link);
-
     let images = []
     let music = []
     let music_ids = []
