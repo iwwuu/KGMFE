@@ -16,7 +16,7 @@ class ComponentFileSystem extends HTMLElement {
         if (this.hasAttribute("data-back-link")) {
             backLink = this.getAttribute("data-back-link")
         }
-        title.insertAdjacentHTML("afterbegin", "<a href='" + backLink + "'>&lt;-</a> " + this.getAttribute("data-title"));
+        title.insertAdjacentHTML("afterbegin", "<a id='backarrow' href='" + backLink + "'>&lt;-</a> " + this.getAttribute("data-title"));
         directory.appendChild(title);
 
         const sortedFiles = Array.from(this.children)
