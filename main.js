@@ -5,15 +5,12 @@ import { hasImage, stateChangeImage, fillImages } from "./file-type/image.js";
 
 //hack to avoid white flash while loading stylesheet
 document.body.style.backgroundColor = "black";
-document.getElementById("backarrow").style.opacity = 0;
 
 const link = document.createElement('link');
 link.rel = 'stylesheet';
 link.type = 'text/css';
 link.href = new URL('./style.css', import.meta.url).href;
 document.head.appendChild(link);
-
-document.getElementById("backarrow").style.opacity = 1;
 
 isDocumentReady(() => {
     const directory = document.getElementById("directory");
