@@ -12,6 +12,10 @@ link.type = 'text/css';
 link.href = new URL('./style.css', import.meta.url).href;
 document.head.appendChild(link);
 
+if (history.state !== null) {
+    history.back();
+}
+
 isDocumentReady(() => {
     const directory = document.getElementById("directory");
 

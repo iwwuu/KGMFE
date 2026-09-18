@@ -94,7 +94,7 @@ isDocumentReady(() => {
             item.addEventListener('click', () => {
                 let name = imageTitle.textContent;
                 index = findIndex(name, images);
-                
+
                 if (index == 0)
                     index = images.length - 1;
                 else index--;
