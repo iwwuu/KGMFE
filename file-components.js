@@ -10,7 +10,7 @@ class ComponentFileSystem extends HTMLElement {
         const directory = document.createElement("div");
         fileView.id = "file-view";
         directory.id = "directory";
-        
+
         const title = document.createElement("h2");
         let backLink = "../";
         if (this.hasAttribute("data-back-link")) {
@@ -40,19 +40,19 @@ class ComponentFileSystem extends HTMLElement {
                     <h3><b>Last Modified</b></h3>
                     </div>
                 `)
-                
+
             sortedFiles.forEach(file => {
                 directory.appendChild(file);
-            });    
+            });
         }
-        
+
         fileView.appendChild(directory)
         this.appendChild(fileView)
 
         if (directory.querySelector("mock-file[data-type='audioStream']") !== null) {
             const musicView = document.createElement("div");
             const playerFiles = document.createElement("div");
-            
+
             musicView.id = "music-view";
             playerFiles.id = "playerfiles";
             playerFiles.style.display = "none";
@@ -68,11 +68,11 @@ class ComponentFileSystem extends HTMLElement {
                     <a id="forward" class="fas fa-forward"></a>
                 </div>
             `);
-            
+
             this.appendChild(musicView);
             this.appendChild(playerFiles);
         }
-        
+
         if (directory.querySelector("mock-file[data-type='image']") !== null) {
             const imageView = document.createElement("div");
             imageView.id = "image-view";
@@ -89,7 +89,7 @@ class ComponentFileSystem extends HTMLElement {
                 </div>
                 <a class="right-delta">Δ</a>
             `);
-            
+
             this.appendChild(imageView);
         }
         ComponentFileSystem.instanceFS = this;

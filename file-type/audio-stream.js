@@ -50,7 +50,7 @@ function onPlayerStateChange(event) {
     const play = document.getElementById("play");
     const pause = document.getElementById("pause");
     const forward = document.getElementById("forward");
-    
+
     musicTitle.textContent = cur_song;
     if (cur_song.length > 25) {
         musicTitle.classList.add("scrolling-left");
@@ -104,7 +104,7 @@ function replaceMusic(name) {
         musicTitle.textContent = "LOADING...";
         musicTitle.classList.remove("scrolling-left")
         cur_song = name;
-        
+
         player.setVolume(100);
         player.setPlaybackRate(1);
         player.playVideo();
@@ -171,7 +171,7 @@ isDocumentReady(() => {
     const forward = document.getElementById("forward");
     const backward = document.getElementById("backward");
     const marqueeWrapper = document.getElementById("marquee-wrapper");
-    
+
     if (backward) {
         backward.addEventListener('click', () => {
             let name = cur_song
@@ -189,7 +189,7 @@ isDocumentReady(() => {
         forward.addEventListener('click', () => {
             let name = cur_song
             index = findIndex(name, music);
-            
+
             if (index == music.length - 1)
                 index = 0;
             else index++;
@@ -211,7 +211,7 @@ isDocumentReady(() => {
                 musicView.style.display = "none";
             }, 400)
         });
-        
+
         marqueeWrapper.addEventListener("mouseenter", () => { 
             if (!isPaused) {
                 document.querySelector(".scrolling-left").style.animationPlayState = "paused"
